@@ -1,0 +1,129 @@
+---
+/**
+ * IndustryExplorer: sector cards plus the client logo grid on /industries/.
+ * Clicking a sector card filters the logos to that sector; "All sectors" resets.
+ * Data: src/data/industries.ts
+ */
+import SectionHeading from '../ui/SectionHeading.astro';
+import Section from '../ui/Section.astro';
+import Tag from '../ui/Tag.astro';
+import { sectors, clients } from '../../data/industries';
+const names = Object.fromEntries(sectors.map((s) => [s.key, s.title]));
+---
+<Section width="wide" space="md">
+  <SectionHeading
+    align="center"
+    kicker="Industries"
+    title="Sectors we serve"
+    lead="Deep, hands-on experience across the industries that shape the region and beyond. Select a sector to see the clients we serve in it."
+  />
+  <div class="sectors">
+    {sectors.map((s, i) => (
+      <button class="sector" type="button" data-sector={s.key}>
+        <span class="sector__ix">{String(i + 1).padStart(2, '0')}</span>
+        <h3 class="sector__title">{s.title}</h3>
+        <p class="sector__text">{s.text}</p>
+        <Tag>{s.tags}</Tag>
+        <span class="sector__more">View clients &rarr;</span>
+      </button>
+    ))}
+  </div>
+</Section>
+
+<Section tone="textured" width="wide" space="md" id="clients">
+  <SectionHeading align="center" kicker="Clients" title="Trusted across the globe" lead="A selection of the organisations we work with. Hover a logo to see it in colour." />
+  <div class="filterbar">
+    <button class="filterbar__all is-on" type="button">All sectors</button>
+    <span class="filterbar__status" aria-live="polite">Showing <b>all {clients.length} clients</b></span>
+  </div>
+  <div class="logos">
+    {clients.map((c) => (
+      <div class:list={['logo', { 'logo--text': !c.logo }]} data-sector={c.sector} style={`--c:${c.color}`}>
+        {c.logo && <img src={c.logo} alt={c.name} loading="lazy" />}
+        <span class="logo__name">{c.name}</span>
+      </div>
+    ))}
+  </div>
+  <p class="logos__foot">Listed corporates, public bodies, high-growth companies and leading non-profits. Further references on request.</p>
+</Section>
+
+<script is:inline define:vars={{ names }}>
+  (function () {
+    var cards = document.querySelectorAll('.sector');
+    var cells = document.querySelectorAll('.logo');
+    var all = document.querySelector('.filterbar__all');
+    var status = document.querySelector('.filterbar__status');
+    function apply(f, scroll) {
+      var shown = 0;
+      cells.forEach(function (c) { var v = f === 'all' || c.dataset.sector === f; c.hidden = !v; if (v) shown++; });
+      cards.forEach(function (c) { c.classList.toggle('is-on', c.dataset.sector === f); });
+      all.classList.toggle('is-on', f === 'all');
+      status.innerHTML = f === 'all' ? 'Showing <b>all ' + shown + ' clients</b>' : 'Showing <b>' + names[f] + '</b> (' + shown + ')';
+      if (scroll) document.getElementById('clients').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    cards.forEach(function (c) {
+      c.addEventListener('click', function () { apply(c.classList.contains('is-on') ? 'all' : c.dataset.sector, !c.classList.contains('is-on')); });
+    });
+    all.addEventListener('click', function () { apply('all', false); });
+  })();
+</script>
+
+<style>
+  .sectors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+  .sector {
+    position: relative; overflow: hidden; text-align: left; cursor: pointer;
+    background: var(--color-white); border: 1px solid var(--color-border); border-radius: var(--radius-2xl);
+    padding: 26px 24px 22px; box-shadow: var(--shadow-xs); font: inherit;
+    transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease), background-color var(--ease);
+  }
+  .sector::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--color-primary);
+    transform: scaleX(0); transform-origin: left; transition: transform var(--ease);
+  }
+  .sector:hover { transform: translateY(-3px); box-shadow: 0 22px 40px -24px rgba(9, 48, 97, .5); }
+  .sector:hover::before, .sector.is-on::before { transform: scaleX(1); }
+  .sector.is-on { border-color: var(--color-primary-line); background: var(--color-primary-tint); }
+  .sector__ix { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-meta); color: #cdd6e3; letter-spacing: .05em; }
+  .sector__title { font-size: 17px; font-weight: 700; margin: 8px 0 7px; }
+  .sector__text { color: var(--color-text-muted); font-size: 13.5px; line-height: 1.55; margin: 0 0 14px; min-height: 42px; }
+  .sector__more { display: block; margin-top: 14px; color: var(--color-primary); font-family: var(--font-heading); font-size: 12.5px; font-weight: 700; opacity: 0; transition: opacity var(--ease); }
+  .sector:hover .sector__more, .sector.is-on .sector__more { opacity: 1; }
+
+  .filterbar { display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; margin: 6px auto 30px; }
+  .filterbar__all {
+    font-family: var(--font-heading); font-size: 12.5px; font-weight: 700; cursor: pointer;
+    border: 1px solid #dfe5ee; background: var(--color-white); color: var(--color-navy);
+    padding: 9px 18px; border-radius: var(--radius-pill); transition: all var(--ease);
+  }
+  .filterbar__all.is-on { background: var(--color-navy); border-color: var(--color-navy); color: var(--color-white); }
+  .filterbar__status { font-size: 14px; color: var(--color-text-muted); }
+  .filterbar__status :global(b) { color: var(--color-navy); }
+
+  .logos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .logo {
+    min-height: 128px; border-radius: var(--radius-xl); border: 1px solid #edf0f5; background: var(--color-white);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 11px; padding: 18px; text-align: center;
+    transition: all .16s ease;
+  }
+  .logo[hidden] { display: none; }
+  .logo img { max-height: 44px; max-width: 120px; width: auto; filter: grayscale(1); opacity: .62; transition: all .16s ease; }
+  .logo__name { font-family: var(--font-heading); font-size: 12.5px; font-weight: 600; color: #8a93a3; line-height: 1.25; }
+  .logo:hover {
+    border-color: color-mix(in srgb, var(--c) 40%, #fff);
+    background: color-mix(in srgb, var(--c) 7%, #fff);
+    box-shadow: 0 16px 30px -18px color-mix(in srgb, var(--c) 60%, #0a3056);
+    transform: translateY(-3px);
+  }
+  .logo:hover img { filter: none; opacity: 1; }
+  .logo:hover .logo__name { color: var(--c); }
+  .logos__foot { color: var(--color-text-faint); font-size: 13.5px; text-align: center; max-width: 780px; margin: 30px auto 0; }
+
+  @media (max-width: 900px) {
+    .sectors { grid-template-columns: repeat(2, 1fr); }
+    .logos { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .sectors { grid-template-columns: 1fr; }
+    .logos { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

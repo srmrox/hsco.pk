@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import ButtonGroup from '../components/ui/ButtonGroup.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="Careers" description="Join a young, ambitious practice where Chartered Accountants and software developers work side by side.">
+  <PageHero eyebrow="Careers" title="Grow with a firm that’s growing"
+    intro="We are a young, ambitious practice where Chartered Accountants and software developers work side by side. If you want real responsibility and varied work, we would like to meet you.">
+    <ButtonGroup><Button href={site.vacanciesUrl}>Browse vacancies</Button></ButtonGroup>
+  </PageHero>
+
+  <Section width="max" align="center">
+    <SectionHeading align="center" title="Why work here" />
+    <Grid cols={4} gap="sm">
+      <Card size="sm" title="Real exposure" text="From development bodies to multinationals, a wider range of clients than most firms offer." />
+      <Card size="sm" title="Mentorship" text="Learn directly under an FCA and an experienced managing director." />
+      <Card size="sm" title="Finance + technology" text="A rare environment where accounting and engineering share a room." />
+      <Card size="sm" title="International reach" text="Across Pakistan, the UK, Saudi Arabia and clients around the globe." />
+    </Grid>
+    <p class="note">We hire CA trainees, qualified and finalist CAs, tax and corporate-advisory associates, audit associates, and software, web and database developers. Don’t see your role? Browse our current openings, or get in touch — we are always interested in exceptional people.</p>
+  </Section>
+
+  <CtaBand title="Ready to start?">
+    <Button href={site.vacanciesUrl}>Browse vacancies</Button>
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .note { color: var(--color-text-muted); font-size: var(--text-base-sm); line-height: 1.7; max-width: 760px; margin: var(--space-8) auto 0; }
+</style>

@@ -1,0 +1,19 @@
+---
+/** Grey box with a red left bar, for a highlighted note. */
+interface Props { label?: string }
+const { label } = Astro.props;
+---
+<p class="callout">{label && <strong>{label} </strong>}<slot /></p>
+
+<style>
+  .callout {
+    background: var(--color-surface-hover);
+    border-left: 4px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-4) var(--space-5);
+    font-size: var(--text-base-sm);
+    color: #334155;
+    line-height: var(--leading-normal);
+    margin: var(--space-2) 0 0;
+  }
+</style>

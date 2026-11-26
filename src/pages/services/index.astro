@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import FeatureSplit from '../../components/sections/FeatureSplit.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import Prose from '../../components/ui/Prose.astro';
+import Grid from '../../components/ui/Grid.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import { services } from '../../data/services';
+---
+<BaseLayout title="Services" description="Eight services, one team: advisory, risk, process, accounting, audit, tax, corporate and IT.">
+  <PageHero eyebrow="Our line of services" title="Integrated services for every <em>stage of growth</em>"
+    intro="Most firms make you choose between an accountant who understands your numbers and a technologist who can fix your systems. We give you both, on one team." />
+
+  <Section align="center">
+    <SectionHeading align="center" kicker="What we do" title="Eight services, one team" lead="Pick the work you need. Each is delivered by people who also understand the rest, so the advice joins up." />
+    <Grid cols={4} gap="sm">
+      {services.map((s) => <Card href={`/services/${s.slug}/`} title={s.cardTitle} text={s.summary} />)}
+    </Grid>
+  </Section>
+
+  <Section tone="textured">
+    <FeatureSplit>
+      <SectionHeading kicker="How we work" title="One team, from first question to final sign-off" />
+      <Prose>
+        <p>You get accountants and engineers in the same room, so the advice, the numbers and the systems behind them line up. No hand-offs between firms, no gaps where things fall through.</p>
+      </Prose>
+      <img slot="figure" src="/images/advisers-working-together.jpg" alt="Advisers working together" loading="lazy" width="1280" height="900" />
+    </FeatureSplit>
+  </Section>
+
+  <CtaBand title="Not sure which service you need?" text="Describe the problem and we will point you to the right partner.">
+    <Button href="/contact/">Get in touch</Button>
+  </CtaBand>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import FeatureSplit from '../components/sections/FeatureSplit.astro';
+import NetworkFigure from '../components/figures/NetworkFigure.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Prose from '../components/ui/Prose.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+
+const companies = [
+  { name: 'Hina Shahrukh &amp; Co.', text: 'Chartered Accountants and advisory. The practice at the centre of the group.' },
+  { name: 'Hina Shahrukh Technologies', text: 'Software and systems development, building the tools our advisory work designs.' },
+  { name: 'Chapter One Solutions', text: 'A group company extending our capability into adjacent services.' },
+  { name: 'HS Realtors', text: 'Real estate, advising on property and development.' },
+  { name: 'Hina Shahrukh Group (UK)', text: 'Our United Kingdom presence, serving clients across Europe.' },
+  { name: 'The Blink Ink', text: 'A creative and content venture within the group.' },
+];
+---
+<BaseLayout title="Our Group" description="The Hina Shahrukh group: separate companies in advisory, technology, real estate and more, reached through one relationship.">
+  <PageHero eyebrow="Our group" title="One group, built around a <em>single idea</em>"
+    intro="Hina Shahrukh &amp; Co. anchors a group that extends the same standard of work into technology, real estate and beyond. Clients can draw on the whole group through one relationship." />
+
+  <Section>
+    <FeatureSplit>
+      <SectionHeading kicker="How it fits together" title="Separate companies, one relationship" />
+      <Prose>
+        <p>Each business in the group runs on its own, with its own focus and team. What connects them is the same standard of work and a single point of contact: your relationship with the firm opens the door to all of it.</p>
+        <p>So a tax engagement can pull in software when a process needs automating, or property advice when a deal needs structuring, without you starting a new search each time.</p>
+      </Prose>
+      <NetworkFigure slot="figure" />
+    </FeatureSplit>
+  </Section>
+
+  <Section tone="textured" align="center">
+    <SectionHeading align="center" kicker="The companies" title="Companies in the group" lead="Each company runs to the same standard, and any of them can be reached through your existing relationship with the firm." />
+    <Grid cols={3}>
+      {companies.map((c) => <Card title={c.name} text={c.text} />)}
+    </Grid>
+  </Section>
+
+  <CtaBand title="Work with the group." text="One relationship, the full range of what the group can do.">
+    <Button href="/contact/">Get in touch</Button>
+  </CtaBand>
+</BaseLayout>

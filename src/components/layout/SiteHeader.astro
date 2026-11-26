@@ -1,0 +1,164 @@
+---
+/**
+ * SiteHeader: logo, main menu (with drop-downs) and the CAREERS / CONNECT buttons.
+ * Menu items come from src/data/site.ts.
+ * The current page is highlighted automatically.
+ */
+import { mainNav, headerActions, site } from '../../data/site';
+
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : Astro.url.pathname + '/';
+const isActive = (href: string) => (href === '/' ? path === '/' || path === '/home/' : path === href);
+const isSection = (item: { href: string; children?: { href: string }[] }) =>
+  isActive(item.href) || (item.children ?? []).some((c) => isActive(c.href));
+---
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="/" aria-label={`${site.name} home`}>
+      <img src="/images/brand/logo.png" width="875" height="250" alt={site.name} />
+    </a>
+
+    <button class="site-header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu">
+      <svg class="icon-open" viewBox="0 0 448 512" aria-hidden="true"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"/></svg>
+      <svg class="icon-close" viewBox="0 0 352 512" aria-hidden="true"><path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/></svg>
+    </button>
+
+    <nav class="site-nav" id="site-menu" aria-label="Main">
+      <ul class="site-nav__list">
+        {mainNav.map((item) => (
+          <li class:list={['site-nav__item', { 'has-children': item.children, 'is-active': isSection(item) }]}>
+            <a class="site-nav__link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+              {item.label}
+              {item.children && <svg class="site-nav__caret" viewBox="0 0 320 512" aria-hidden="true"><path d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"/></svg>}
+            </a>
+            {item.children && (
+              <ul class="site-nav__sub">
+                {item.children.map((child) => (
+                  <li><a href={child.href} aria-current={isActive(child.href) ? 'page' : undefined}>{child.label}</a></li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      {headerActions.map((a) => (
+        <a class:list={['header-btn', `header-btn--${a.variant}`]} href={a.href}>{a.label}</a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.site-header__toggle');
+  toggle?.addEventListener('click', () => {
+    const open = header!.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>
+
+<style>
+  .site-header { background: var(--color-white); border-bottom: 1px solid #e0e0e0; position: relative; z-index: 50; }
+  .site-header__inner {
+    max-width: var(--width-wide);
+    margin: 0 auto;
+    min-height: var(--header-height);
+    display: flex;
+    align-items: stretch;
+  }
+  .site-header__logo { flex: 0 0 auto; display: flex; align-items: center; }
+  .site-header__logo img { height: 60px; width: auto; object-fit: contain; object-position: left center; }
+
+  /* ---- Menu ---- */
+  .site-nav { flex: 1 1 auto; display: flex; align-items: center; justify-content: flex-end; }
+  .site-nav__list { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; }
+  .site-nav__item { position: relative; }
+  .site-nav__link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 15px;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: var(--color-navy-header);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--ease), background-color var(--ease);
+  }
+  .site-nav__link:hover { color: var(--color-primary); }
+  .site-nav__item.is-active > .site-nav__link { background: var(--color-primary); color: var(--color-white); }
+  .site-nav__caret { width: 10px; height: 10px; fill: currentColor; }
+
+  .site-nav__sub {
+    list-style: none; margin: 0; padding: 0;
+    position: absolute; top: 100%; left: 0;
+    width: 220px;
+    background: var(--color-white);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: opacity var(--ease), transform var(--ease), visibility var(--ease);
+  }
+  .site-nav__item:hover > .site-nav__sub,
+  .site-nav__item:focus-within > .site-nav__sub { opacity: 1; visibility: visible; transform: translateY(0); }
+  .site-nav__sub li:not(:last-child) { border-bottom: 1px solid #f9f9f9; }
+  .site-nav__sub a {
+    display: block;
+    padding: 15px 15px 15px 20px;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: var(--text-base-sm);
+    color: var(--color-navy-header);
+    text-decoration: none;
+  }
+  .site-nav__sub a:hover, .site-nav__sub a[aria-current='page'] { color: var(--color-primary); }
+
+  /* ---- CAREERS / CONNECT ---- */
+  .site-header__actions { display: flex; margin-left: 64px; }
+  .header-btn {
+    display: flex; align-items: center;
+    padding: 0 20px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--text-base);
+    color: var(--color-white);
+    text-decoration: none;
+    transition: filter var(--ease);
+  }
+  .header-btn:hover { filter: brightness(1.15); }
+  .header-btn--navy { background: var(--color-navy-header); }
+  .header-btn--red { background: var(--color-primary); }
+
+  /* ---- Toggle (tablet and phone) ---- */
+  .site-header__toggle { display: none; }
+
+  @media (max-width: 1024px) {
+    .site-header__inner { flex-wrap: wrap; padding: 0 var(--space-5); }
+    .site-header__logo { flex: 1 1 auto; }
+    .site-header__toggle {
+      display: flex; align-items: center; justify-content: center;
+      order: 3;
+      background: none; border: 0; cursor: pointer;
+      padding: 0 0 0 var(--space-4);
+      color: var(--color-primary);
+    }
+    .site-header__toggle svg { width: 27px; height: 27px; fill: currentColor; }
+    .site-header__toggle .icon-close { display: none; }
+    .is-open .site-header__toggle .icon-open { display: none; }
+    .is-open .site-header__toggle .icon-close { display: block; }
+    .site-header__actions { order: 2; margin-left: 0; }
+    .header-btn { padding: 18px; }
+
+    .site-nav { order: 4; flex-basis: 100%; display: none; margin: 0 calc(-1 * var(--space-5)); }
+    .is-open .site-nav { display: block; }
+    .site-nav__list { flex-direction: column; align-items: stretch; border-top: 1px solid #e0e0e0; }
+    .site-nav__item { border-bottom: 1px solid #f9f9f9; }
+    .site-nav__link { padding: 15px var(--space-5); justify-content: space-between; }
+    .site-nav__sub { position: static; width: auto; box-shadow: none; opacity: 1; visibility: visible; transform: none; display: none; }
+    .site-nav__item:hover > .site-nav__sub, .site-nav__item:focus-within > .site-nav__sub { display: block; }
+    .site-nav__sub a { padding-left: 40px; }
+  }
+  @media (max-width: 767px) {
+    .site-header__actions { display: none; }
+  }
+</style>

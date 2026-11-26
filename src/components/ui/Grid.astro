@@ -1,0 +1,28 @@
+---
+/**
+ * Responsive grid for cards.
+ *   cols: 2 | 3 | 4 (columns on desktop; collapses on tablet and phone)
+ */
+interface Props { cols?: 2 | 3 | 4; gap?: 'sm' | 'md'; class?: string }
+const { cols = 3, gap = 'md', class: className } = Astro.props;
+---
+<div class:list={['grid', `grid--${cols}`, `grid--gap-${gap}`, className]}><slot /></div>
+
+<style>
+  .grid { display: grid; margin-top: var(--space-6); text-align: left; }
+  .grid--gap-md { gap: 18px; }
+  .grid--gap-sm { gap: var(--space-4); }
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) {
+    .grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .grid--3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 760px) {
+    .grid--2, .grid--3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .grid--4 { grid-template-columns: 1fr; }
+  }
+</style>

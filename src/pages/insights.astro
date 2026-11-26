@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import Grid from '../components/ui/Grid.astro';
+import Tag from '../components/ui/Tag.astro';
+import ArticleCard from '../components/ui/ArticleCard.astro';
+
+const topics = ['All', 'Tax & Regulatory', 'Audit & Assurance', 'Advisory & Strategy', 'Technology in Finance'];
+const articles = [
+  { category: 'Tax & Regulatory', title: 'The FBR filing calendar every business must hit', meta: 'Sample card · 5 min read' },
+  { category: 'Audit & Assurance', title: 'When does your company need a statutory audit?', meta: 'Sample card · 4 min read' },
+  { category: 'Technology in Finance', title: 'Why your finance team and your software should be built together', meta: 'Sample card · 6 min read' },
+];
+---
+<BaseLayout title="Insights" description="Short, useful pieces on tax, audit, compliance and technology in finance.">
+  <PageHero eyebrow="Insights" title="Ideas for principled growth"
+    intro="Short, useful pieces on tax, audit, compliance and how technology is changing finance. Written by the people who do the work." />
+
+  <Section width="max">
+    <div class="topics">{topics.map((t) => <Tag variant="outline">{t}</Tag>)}</div>
+    <Grid cols={3} gap="md" class="articles">
+      {articles.map((a) => <ArticleCard {...a} />)}
+    </Grid>
+    <p class="note"><em>Cards shown are samples. Live, this grid will pull the latest posts automatically.</em></p>
+  </Section>
+</BaseLayout>
+
+<style>
+  .topics { margin-bottom: 20px; }
+  :global(.articles) { gap: 20px; }
+  .note { color: var(--color-text-subtle); font-size: var(--text-meta); margin-top: var(--space-4); }
+</style>

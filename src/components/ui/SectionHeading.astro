@@ -1,0 +1,47 @@
+---
+/**
+ * Kicker + heading + optional lead paragraph. Used at the top of most sections.
+ *   align: left | center
+ *   as:    heading level (h2 default)
+ */
+import Kicker from './Kicker.astro';
+interface Props {
+  kicker?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  as?: 'h1' | 'h2' | 'h3';
+  size?: 'md' | 'lg';
+}
+const { kicker, title, lead, align = 'left', as: Tag = 'h2', size = 'md' } = Astro.props;
+---
+<header class:list={['sh', `sh--${align}`, `sh--${size}`]}>
+  {kicker && <Kicker>{kicker}</Kicker>}
+  <Tag class="sh__title" set:html={title} />
+  {lead && <p class="sh__lead" set:html={lead} />}
+</header>
+
+<style>
+  .sh--center { text-align: center; }
+  .sh__title {
+    color: var(--color-navy);
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-tight);
+    margin: 0 0 14px;
+  }
+  .sh--lg .sh__title { font-size: var(--text-h2-lg); line-height: var(--leading-tight); }
+  .sh__lead {
+    color: var(--color-text-muted);
+    font-size: var(--text-lead);
+    line-height: 1.7;
+    max-width: 680px;
+    margin: 0 0 8px;
+  }
+  .sh--center .sh__lead { margin-left: auto; margin-right: auto; }
+  @media (max-width: 820px) {
+    .sh--lg .sh__title { font-size: var(--text-h2); }
+  }
+</style>

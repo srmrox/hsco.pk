@@ -1,0 +1,26 @@
+---
+/**
+ * CtaBand: navy closing band with a heading, optional line and buttons (slot).
+ */
+interface Props { title: string; text?: string }
+const { title, text } = Astro.props;
+---
+<section class="cta">
+  <h2 class="cta__title" set:html={title} />
+  {text && <p class="cta__text" set:html={text} />}
+  <div class="cta__actions"><slot /></div>
+</section>
+
+<style>
+  .cta { background: var(--gradient-cta); text-align: center; padding: var(--space-16) var(--gutter); }
+  .cta__title {
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-size: var(--text-h2);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: var(--tracking-tight);
+  }
+  .cta__text { color: var(--color-on-dark); font-size: var(--text-base); margin: 12px auto 0; max-width: 540px; }
+  .cta__actions { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; margin-top: var(--space-6); }
+</style>

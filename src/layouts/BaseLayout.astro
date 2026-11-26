@@ -1,0 +1,42 @@
+---
+/**
+ * BaseLayout: every page uses this. It adds <head>, the header and the footer.
+ *   title:       page name, shown as "<title> – Hina Shahrukh & Co." (home page shows the tagline)
+ *   canonicalPath: set when this page duplicates another (e.g. /home/ points to /)
+ *   description: text for search engines and link previews
+ */
+import '../styles/global.css';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import { site } from '../data/site';
+
+interface Props { title?: string; description?: string; canonicalPath?: string }
+const { title, canonicalPath, description = 'Hina Shahrukh & Co. Chartered Accountants: audit, tax, advisory and IT services across Pakistan, the UK and Saudi Arabia.' } = Astro.props;
+const fullTitle = title ? `${title} – ${site.name}` : `${site.name} – ${site.tagline}`;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, site.url).href;
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="icon" href="/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <SiteHeader />
+    <main id="content"><slot /></main>
+    <SiteFooter />
+  </body>
+</html>

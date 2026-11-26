@@ -1,0 +1,70 @@
+---
+/**
+ * WorldMap: interactive map of countries served (amCharts 4, same library as the old site).
+ * Countries and offices are set in src/data/map.ts. Colours come from the design tokens.
+ */
+import { mapCountries, mapOffices } from '../../data/map';
+---
+<div class="world-map" aria-label="Map of countries where we have worked" role="img">
+  <div class="world-map__canvas" id="world-map"></div>
+</div>
+
+<script is:inline src="https://cdn.amcharts.com/lib/version/4.10.29/core.js" defer></script>
+<script is:inline src="https://cdn.amcharts.com/lib/version/4.10.29/maps.js" defer></script>
+<script is:inline src="https://cdn.amcharts.com/lib/4/geodata/worldLow.js" defer></script>
+<script is:inline define:vars={{ mapCountries, mapOffices }}>
+  window.addEventListener('DOMContentLoaded', function () {
+    var el = document.getElementById('world-map');
+    if (!el || !window.am4core || !window.am4maps) return;
+    var css = getComputedStyle(document.documentElement);
+    var token = function (n) { return am4core.color(css.getPropertyValue(n).trim()); };
+
+    var draw = function () {
+      var chart = am4core.create(el, am4maps.MapChart);
+      chart.geodata = window.am4geodata_worldLow;
+      chart.projection = new am4maps.projections.Miller();
+      chart.chartContainer.wheelable = false;
+      chart.seriesContainer.draggable = false;
+      chart.seriesContainer.resizable = false;
+      chart.maxZoomLevel = 1;
+
+      var land = chart.series.push(new am4maps.MapPolygonSeries());
+      land.useGeodata = true;
+      land.exclude = ['AQ'];
+      var tpl = land.mapPolygons.template;
+      tpl.tooltipText = '{name}';
+      tpl.fill = token('--color-map-land');
+      tpl.stroke = am4core.color('#f9f9f9');
+      tpl.strokeWidth = 1;
+      tpl.propertyFields.fill = 'fill';
+      land.data = mapCountries.map(function (id) { return { id: id, fill: token('--color-map-active') }; });
+      var hover = tpl.states.create('hover');
+      hover.properties.fill = token('--color-navy-header');
+
+      var pins = chart.series.push(new am4maps.MapImageSeries());
+      var circle = pins.mapImages.template.createChild(am4core.Circle);
+      circle.radius = 2;
+      circle.fill = am4core.color('#000000');
+      pins.mapImages.template.propertyFields.latitude = 'latitude';
+      pins.mapImages.template.propertyFields.longitude = 'longitude';
+      pins.mapImages.template.tooltipHTML = '{html}';
+      pins.data = mapOffices;
+    };
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { io.disconnect(); draw(); }
+      }, { rootMargin: '200px' });
+      io.observe(el);
+    } else { draw(); }
+  });
+</script>
+
+<style>
+  .world-map { position: relative; width: 100%; padding-top: 56%; }
+  .world-map__canvas { position: absolute; inset: 0; }
+  @media (max-width: 767px) {
+    .world-map { padding-top: 0; }
+    .world-map__canvas { position: relative; height: 300px; }
+  }
+</style>

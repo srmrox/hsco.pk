@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import FeatureSplit from '../components/sections/FeatureSplit.astro';
+import OrbitFigure from '../components/figures/OrbitFigure.astro';
+import NetworkFigure from '../components/figures/NetworkFigure.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Stats from '../components/ui/Stats.astro';
+import Prose from '../components/ui/Prose.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import BulletList from '../components/ui/BulletList.astro';
+import Button from '../components/ui/Button.astro';
+---
+<BaseLayout title="About" description="Hina Shahrukh & Co. is a practical, principled advisory firm founded in Islamabad in 2015.">
+  <PageHero eyebrow="Who we are" title="A practical, principled advisory firm" intro="We do careful work, keep our word, and treat every engagement as a partnership." flush>
+    <Stats items={[
+      { value: '2015', label: 'Founded in Islamabad' },
+      { value: 'Islamabad &middot; London', label: 'Where we are based', small: true },
+      { value: 'Audit &middot; Tax &middot; Advisory &middot; IT', label: 'Full service, one firm', small: true },
+    ]} />
+  </PageHero>
+
+  <Section>
+    <FeatureSplit>
+      <SectionHeading kicker="Our story" title="Built on doing the work properly" />
+      <Prose>
+        <p>Two Chartered Accountants started Hina Shahrukh &amp; Co. in 2015 with a clear view of how the work should be done: manage the deadline, manage the relationship, and never trade quality for speed. A decade on, that view still runs the firm.</p>
+        <p>We offer corporate and tax advisory, financial solutions, external and internal audit, and complete IT services. When the right answer is not available off the shelf, we work with your team to build it.</p>
+      </Prose>
+      <OrbitFigure slot="figure" />
+    </FeatureSplit>
+  </Section>
+
+  <Section tone="textured">
+    <FeatureSplit reverse>
+      <SectionHeading kicker="What makes us different" title="Accountants and engineers, in one room" />
+      <Prose>
+        <p>Most firms give you accountants. We give you accountants and software developers, working side by side. That mix lets us see a problem in full (the numbers, the process and the system underneath) and fix it once rather than three times. It is the combination most businesses now need, and it is rare in our field.</p>
+      </Prose>
+      <NetworkFigure slot="figure" />
+    </FeatureSplit>
+  </Section>
+
+  <Section>
+    <SectionHeading kicker="Our values" title="Innovation. Accountability. Growth." />
+    <Grid cols={3}>
+      <Card title="Innovation" text="We look for a better way, and build it when we have to." />
+      <Card title="Accountability" text="We own our commitments and stay transparent throughout." />
+      <Card title="Growth" text="We measure our work by the results it creates for you." />
+    </Grid>
+  </Section>
+
+  <Section tone="textured">
+    <SectionHeading kicker="Recognition" title="A track record clients trust" />
+    <BulletList variant="squares" items={[
+      'CA Woman of the Year, 2020',
+      'Best Women-Led Startup, National Incubation Center',
+      'Registered with the Institute of Chartered Accountants of Pakistan (ICAP) since 2015',
+    ]} />
+  </Section>
+
+  <CtaBand title="Meet the people behind the work." text="Tell us what you are solving and we will point you to the right partner.">
+    <Button href="/team/">Meet the team</Button>
+    <Button href="/contact/" variant="ghost">Get in touch</Button>
+  </CtaBand>
+</BaseLayout>

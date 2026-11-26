@@ -1,0 +1,34 @@
+---
+/** Side menu listing all services; highlights the current one. */
+import { services } from '../../data/services';
+interface Props { current: string }
+const { current } = Astro.props;
+---
+<aside class="side-nav">
+  <div class="side-nav__label">Our services</div>
+  <nav class="side-nav__links" aria-label="Services">
+    {services.map((s) => (
+      <a href={`/services/${s.slug}/`} class:list={{ 'is-active': s.slug === current }} aria-current={s.slug === current ? 'page' : undefined}>{s.navLabel}</a>
+    ))}
+  </nav>
+</aside>
+
+<style>
+  .side-nav { position: sticky; top: 96px; align-self: start; }
+  .side-nav__label {
+    font-family: var(--font-heading); font-size: var(--text-sm); font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--color-text-subtle); margin-bottom: 10px;
+  }
+  .side-nav a {
+    display: block; padding: 10px 14px; margin-bottom: 2px; border-radius: var(--radius-md);
+    color: #334155; font-size: var(--text-base-sm); font-weight: 600; text-decoration: none;
+    transition: background-color var(--ease), color var(--ease);
+  }
+  .side-nav a:hover { background: var(--color-surface-hover); color: var(--color-navy); }
+  .side-nav a.is-active { background: var(--color-navy); color: var(--color-white); }
+  @media (max-width: 880px) {
+    .side-nav { position: static; }
+    .side-nav__links { display: flex; flex-wrap: wrap; gap: 6px; }
+    .side-nav a { margin: 0; }
+  }
+</style>

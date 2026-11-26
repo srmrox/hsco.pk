@@ -1,0 +1,77 @@
+---
+/** Home page body. Used by / and by the old /home/ address. */
+import Button from '../ui/Button.astro';
+import ButtonGroup from '../ui/ButtonGroup.astro';
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import CoverTile from '../sections/CoverTile.astro';
+import WorldMap from '../sections/WorldMap.astro';
+---
+<Section width="max" space="md">
+  <div class="intro">
+    <div class="intro__text">
+      <h1 class="intro__title">Partners in growth</h1>
+      <p class="intro__sub">across industries and geographies</p>
+      <p class="intro__lead">Delivering transformative solutions grounded in steadfast principles and a pursuit of excellence. Our commitment to integrity and measurable impact always aligns our success with our clients’ achievements.</p>
+      <ButtonGroup>
+        <Button href="/about/">Learn More</Button>
+        <Button href="/contact/" variant="outline">Get in touch</Button>
+      </ButtonGroup>
+    </div>
+    <div class="intro__tiles">
+      <CoverTile size="lg" tone="red" image="/images/cover-innovation.jpg" title="Innovation" subtitle="at the forefront"
+        text="Providing forward-thinking strategies that anticipate challenges and seize opportunities, keeping our clients ahead in a rapidly evolving world." />
+      <div class="intro__pair">
+        <CoverTile tone="navy" image="/images/cover-accountability.jpg" title="Accountability" subtitle="at the core"
+          text="Taking full ownership of our commitments and ensuring transparency at every step to build lasting trust with our clients." />
+        <CoverTile tone="black" image="/images/cover-growth.jpg" title="Growth" subtitle="at the horizon"
+          text="Focusing on sustainable progress, we help clients unlock their full potential, driving long-term growth and creating new opportunities." />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<Section tone="black" width="max" space="none">
+  <div class="who">
+    <img class="who__photo" src="/images/team-photo.jpg" width="1536" height="1025" alt="The Hina Shahrukh &amp; Co. team" loading="lazy" />
+    <div class="who__text">
+      <h2 class="who__title">Who are we</h2>
+      <p class="who__lead">Formed in 2015 by two aspiring Chartered Accountants, we are a management consulting firm based in Islamabad operating across Pakistan, the United Kingdom, and the Kingdom of Saudi Arabia (through partner organizations).</p>
+      <ButtonGroup><Button href="/group/" variant="white">About our group</Button></ButtonGroup>
+    </div>
+  </div>
+</Section>
+
+<Section width="max" space="lg">
+  <div class="impact">
+    <div>
+      <SectionHeading size="lg" title="Our impact across the globe" />
+      <p class="impact__lead">Leveraging our extensive experience across a broad spectrum of locations and industries, we excel in translating global expertise into local success.</p>
+    </div>
+    <WorldMap />
+  </div>
+</Section>
+
+<style>
+  .intro { display: grid; grid-template-columns: 46fr 54fr; gap: 2em; align-items: center; }
+  .intro__title { font-size: 40px; font-weight: 800; line-height: var(--leading-tight); }
+  .intro__sub { color: var(--color-heading-sub); font-family: var(--font-heading); font-size: var(--text-h3); font-weight: 600; margin-top: 4px; }
+  .intro__lead { color: var(--color-text); font-size: var(--text-md); line-height: var(--leading-normal); margin-top: 20px; }
+  .intro :global(.btn-group) { margin-top: var(--space-7); }
+  .intro__pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-top: var(--space-4); }
+
+  .who { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+  .who__photo { width: 100%; height: auto; }
+  .who__text { padding: var(--space-10); }
+  .who__title { color: var(--color-white); font-size: var(--text-h2-lg); font-weight: 800; }
+  .who__lead { color: var(--color-on-dark-grey); font-size: var(--text-base); line-height: var(--leading-normal); margin-top: var(--space-4); }
+
+  .impact { display: grid; grid-template-columns: 33fr 67fr; gap: 2em; align-items: center; }
+  .impact__lead { color: var(--color-text); font-size: var(--text-base); line-height: var(--leading-normal); margin-top: var(--space-4); }
+
+  @media (max-width: 781px) {
+    .intro, .who, .impact { grid-template-columns: 1fr; }
+    .intro__pair { grid-template-columns: 1fr; }
+    .who__text { padding: var(--space-8) var(--space-6); }
+  }
+</style>

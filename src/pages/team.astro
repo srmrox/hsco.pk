@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Grid from '../components/ui/Grid.astro';
+import ProfileCard from '../components/ui/ProfileCard.astro';
+import Prose from '../components/ui/Prose.astro';
+---
+<BaseLayout title="Team" description="Meet the partners of Hina Shahrukh & Co.">
+  <PageHero eyebrow="Our team" title="Accountants and technologists, working as one"
+    intro="Our people are the firm. We pair the discipline of classical assurance with engineering ability, a combination most practices cannot offer." />
+
+  <Section width="narrow" space="md">
+    <Grid cols={2} gap="md" class="team-grid">
+      <ProfileCard initials="HS" name="Hina Shahrukh, FCA" role="Partner">
+        A Chartered Accountant and PhD scholar, with a career across Deloitte, EY Ford Rhodes, Grant Thornton and Mobilink Microfinance Bank. Member of ICAP, the Chartered Institute of Taxation (UK) and the Institute of Corporate Secretaries of Pakistan. Named CA Woman of the Year in 2020. She leads the firm’s assurance and advisory work.
+      </ProfileCard>
+      <ProfileCard initials="SM" name="Shahrukh Malik" role="Managing Director">
+        A Chartered Accountant (finalist) and software developer with a master’s in Computer Science. Trained in audit at BDO Ebrahim &amp; Co. and Grant Thornton, he now leads the group’s technology ventures. Microsoft Cloud Solutions Partner and a founding member of Pakistan’s Blockchain and AI networks. He bridges finance and technology.
+      </ProfileCard>
+    </Grid>
+  </Section>
+
+  <Section tone="surface" width="narrow" space="sm">
+    <SectionHeading title="The wider team" />
+    <Prose>
+      <p>Behind our partners is a team of Chartered Accountants, audit and tax associates, and software, web and database developers. It is a deliberately mixed bench, because the problems clients bring us rarely sit neatly in one discipline. <em>(Named team members and photographs to be added.)</em></p>
+    </Prose>
+  </Section>
+</BaseLayout>
+
+<style>
+  :global(.team-grid) { margin-top: 0; gap: 20px; }
+</style>

@@ -1,0 +1,63 @@
+---
+/**
+ * QuickEmailForm: the footer form (name, email, message, newsletter tick box).
+ * It posts to site.formEndpoint. When that is empty it opens the visitor's email app.
+ */
+import { site } from '../../data/site';
+const endpoint = site.formEndpoint;
+---
+<form
+  class="qe"
+  method="post"
+  action={endpoint || `mailto:${site.email}`}
+  enctype={endpoint ? undefined : 'text/plain'}
+>
+  <div class="qe__row">
+    <label class="visually-hidden" for="qe-name">Name</label>
+    <input id="qe-name" name="name" type="text" placeholder="Name" required />
+    <label class="visually-hidden" for="qe-email">Email</label>
+    <input id="qe-email" name="email" type="email" placeholder="Email" required />
+  </div>
+  <label class="visually-hidden" for="qe-message">Message</label>
+  <textarea id="qe-message" name="message" placeholder="Message" rows="4"></textarea>
+  <label class="qe__check">
+    <input type="checkbox" name="newsletter" value="Subscribe to tax and legal updates" />
+    <span>Subscribe to tax and legal updates</span>
+  </label>
+  <button class="qe__submit" type="submit">Submit</button>
+</form>
+
+<style>
+  .qe { display: flex; flex-direction: column; gap: 32px; }
+  .qe__row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .qe input[type='text'], .qe input[type='email'], .qe textarea {
+    width: 100%;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, .25);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text);
+  }
+  .qe input[type='text'], .qe input[type='email'] { height: 42px; }
+  .qe textarea { min-height: 120px; resize: vertical; }
+  .qe ::placeholder { color: #9ca3af; }
+  .qe__check { display: flex; align-items: center; gap: 12px; color: var(--color-white); font-family: var(--font-body); font-size: var(--text-base); cursor: pointer; margin-top: -6px; }
+  .qe__check input { width: 16px; height: 16px; margin: 0; accent-color: var(--color-primary); }
+  .qe__submit {
+    align-self: flex-start;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: 0;
+    border-radius: 3px;
+    padding: 10px 15px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background-color var(--ease);
+  }
+  .qe__submit:hover { background: var(--color-primary-hover); }
+  @media (max-width: 600px) { .qe__row { grid-template-columns: 1fr; } }
+</style>

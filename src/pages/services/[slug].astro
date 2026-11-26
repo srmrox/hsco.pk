@@ -1,0 +1,56 @@
+---
+/** One page per service. Content: src/data/services.ts */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import ServiceSideNav from '../../components/sections/ServiceSideNav.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import BulletList from '../../components/ui/BulletList.astro';
+import Callout from '../../components/ui/Callout.astro';
+import Grid from '../../components/ui/Grid.astro';
+import Card from '../../components/ui/Card.astro';
+import Button from '../../components/ui/Button.astro';
+import ButtonGroup from '../../components/ui/ButtonGroup.astro';
+import { services, type Service } from '../../data/services';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+const { service } = Astro.props as { service: Service };
+---
+<BaseLayout title={service.title} description={service.lead}>
+  <PageHero eyebrow="Our line of services" title={service.title} intro={service.intro}>
+    <ButtonGroup><Button href="/contact/">{service.ctaLabel}</Button></ButtonGroup>
+  </PageHero>
+
+  <Section width="max">
+    <div class="service">
+      <ServiceSideNav current={service.slug} />
+      <div class="service__body">
+        <SectionHeading title="What we do" lead={service.lead} />
+        <BulletList items={service.capabilities} />
+        {service.edge && <Callout label={service.edge.label}>{service.edge.text}</Callout>}
+        <div class="service__engage">
+          <SectionHeading title="When to engage us" />
+          <Grid cols={3} gap="sm">
+            {service.engage.map((e) => <Card size="sm" title={e.title} text={e.text} />)}
+          </Grid>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <CtaBand title={service.closingHeading}>
+    <Button href="/contact/">{service.ctaLabel}</Button>
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .service { display: grid; grid-template-columns: 240px 1fr; gap: var(--space-12); }
+  .service__body :global(.sh__title) { font-size: 26px; margin-bottom: 6px; }
+  .service__body :global(.sh__lead) { font-size: var(--text-base); max-width: none; margin-bottom: 22px; }
+  .service__engage { margin-top: 44px; }
+  .service__engage :global(.grid) { margin-top: 14px; }
+  @media (max-width: 880px) { .service { grid-template-columns: 1fr; gap: var(--space-7); } }
+</style>

@@ -1,0 +1,17 @@
+---
+/** Newsroom entry: red side bar, date label, title and text. */
+interface Props { date: string; title: string }
+const { date, title } = Astro.props;
+---
+<article class="item">
+  <div class="item__date">{date}</div>
+  <h3 class="item__title">{title}</h3>
+  <p class="item__text"><slot /></p>
+</article>
+
+<style>
+  .item { border-left: 3px solid var(--color-primary); padding: 4px 0 4px 20px; margin: 0 0 22px; }
+  .item__date { color: var(--color-primary); font-size: var(--text-meta); font-weight: 700; }
+  .item__title { font-size: 19px; font-weight: 700; margin: 4px 0 6px; }
+  .item__text { color: var(--color-text-muted); font-size: var(--text-base-sm); line-height: 1.65; }
+</style>

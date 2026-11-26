@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import Section from '../components/ui/Section.astro';
+import Grid from '../components/ui/Grid.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+---
+<BaseLayout title="Case Studies" description="Client stories: the problem, what we did, and the result.">
+  <PageHero eyebrow="Case studies" title="The work, in our clients’ words"
+    intro="The clearest way to judge a firm is by what it has actually done: the problem a client faced, the work we did, and the result." />
+
+  <Section width="max" align="center">
+    <Grid cols={3}>
+      <Card accent="none" hover={false} number="01" title="The problem" text="What the client faced, in plain terms, and why it mattered." />
+      <Card accent="none" hover={false} number="02" title="What we did" text="The approach and the work, so you understand what we deliver." />
+      <Card accent="none" hover={false} number="03" title="The result" text="The outcome, measurable wherever we can show it." />
+    </Grid>
+    <p class="note">Detailed client stories are being added here, published with each client’s permission. If you would like references in the meantime, get in touch.</p>
+  </Section>
+
+  <CtaBand title="Have a problem like these?">
+    <Button href="/contact/">Discuss your project</Button>
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .note { color: var(--color-text-muted); font-size: var(--text-base-sm); line-height: 1.7; max-width: 720px; margin: var(--space-7) auto 0; }
+</style>

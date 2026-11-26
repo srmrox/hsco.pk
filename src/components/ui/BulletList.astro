@@ -1,0 +1,44 @@
+---
+/**
+ * List with red markers.
+ *   variant: dots (round dots, two columns; service capabilities)
+ *            squares (square markers with dividers; recognition list)
+ */
+interface Props { items: string[]; variant?: 'dots' | 'squares' }
+const { items, variant = 'dots' } = Astro.props;
+---
+<ul class:list={['blist', `blist--${variant}`]}>
+  {items.map((item) => <li set:html={item} />)}
+</ul>
+
+<style>
+  .blist { list-style: none; padding: 0; margin: 0; }
+  .blist li { position: relative; color: var(--color-text); }
+
+  .blist--dots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px var(--space-6);
+  }
+  .blist--dots li { padding-left: 18px; font-size: var(--text-base-sm); line-height: 1.5; }
+  .blist--dots li::before {
+    content: '';
+    position: absolute; left: 0; top: 7px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--color-primary);
+  }
+  @media (max-width: 560px) { .blist--dots { grid-template-columns: 1fr; } }
+
+  .blist--squares { max-width: 760px; margin-top: 18px; }
+  .blist--squares li {
+    padding: 13px 0 13px 26px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--text-base);
+  }
+  .blist--squares li::before {
+    content: '';
+    position: absolute; left: 0; top: 19px;
+    width: 8px; height: 8px; border-radius: 2px;
+    background: var(--color-primary);
+  }
+</style>

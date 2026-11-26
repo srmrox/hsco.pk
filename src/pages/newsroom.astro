@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import TimelineItem from '../components/ui/TimelineItem.astro';
+---
+<BaseLayout title="Newsroom" description="Milestones, awards and announcements from Hina Shahrukh & Co.">
+  <PageHero eyebrow="Newsroom" title="News &amp; recognition" intro="Milestones, awards and announcements from the firm and the group." />
+  <Section width="narrow">
+    <TimelineItem date="2020" title="CA Woman of the Year">Partner Hina Shahrukh, FCA was recognised as CA Woman of the Year.</TimelineItem>
+    <TimelineItem date="Recognition" title="Best Women-Led Startup">The firm was named Best Women-Led Startup by the National Incubation Center.</TimelineItem>
+    <TimelineItem date="Since 2015" title="Registered with ICAP">Hina Shahrukh &amp; Co. has practised under the Institute of Chartered Accountants of Pakistan since 2015.</TimelineItem>
+  </Section>
+</BaseLayout>

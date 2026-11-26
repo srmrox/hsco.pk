@@ -1,0 +1,21 @@
+---
+/**
+ * Prose: long-form text (paragraphs, sub-headings, lists, links).
+ *   variant: body (story paragraphs) | legal (policy pages with h1/h2)
+ */
+interface Props { variant?: 'body' | 'legal' }
+const { variant = 'body' } = Astro.props;
+---
+<div class:list={['prose', `prose--${variant}`]}><slot /></div>
+
+<style>
+  .prose :global(p) { color: var(--color-text); font-size: var(--text-md); line-height: var(--leading-relaxed); margin: 0 0 16px; }
+  .prose :global(p:last-child) { margin-bottom: 0; }
+  .prose :global(a) { color: var(--color-primary); }
+
+  .prose--legal :global(h1) { font-size: 38px; font-weight: 800; margin: 0 0 6px; }
+  .prose--legal :global(.lead) { color: var(--color-text-muted); font-size: var(--text-base); line-height: 1.7; margin: 0 0 8px; }
+  .prose--legal :global(h2) { font-size: 20px; font-weight: 700; margin: 28px 0 6px; }
+  .prose--legal :global(p) { font-size: var(--text-base); line-height: 1.8; margin: 0 0 16px; }
+  .prose--legal :global(ul) { font-size: var(--text-base); line-height: 1.85; color: var(--color-text); margin: 0 0 16px; }
+</style>

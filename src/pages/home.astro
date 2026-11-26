@@ -1,0 +1,8 @@
+---
+// The old WordPress site also published the home page at /home/. Kept so old links still work.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeContent from '../components/pages/HomeContent.astro';
+---
+<BaseLayout title="Home" canonicalPath="/">
+  <HomeContent />
+</BaseLayout>

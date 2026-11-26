@@ -1,0 +1,11 @@
+---
+/** Row of buttons. align: start | center */
+interface Props { align?: 'start' | 'center'; class?: string }
+const { align = 'start', class: className } = Astro.props;
+---
+<div class:list={['btn-group', `btn-group--${align}`, className]}><slot /></div>
+
+<style>
+  .btn-group { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); }
+  .btn-group--center { justify-content: center; }
+</style>

@@ -1,0 +1,30 @@
+---
+/**
+ * Row of figures under a hero ("2015 / Founded in Islamabad").
+ * Set small: true on an item whose value is a phrase rather than a number.
+ */
+interface Props { items: { value: string; label: string; small?: boolean }[] }
+const { items } = Astro.props;
+---
+<div class="stats">
+  {items.map((s) => (
+    <div class:list={['stat', { 'stat--small': s.small }]}>
+      <div class="stat__value" set:html={s.value} />
+      <div class="stat__label">{s.label}</div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .stats {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    max-width: 920px; margin: 46px auto 0;
+    border-top: 1px solid rgba(255, 255, 255, .14);
+  }
+  .stat { flex: 1 1 0; min-width: 150px; padding: 24px 16px 28px; border-right: 1px solid rgba(255, 255, 255, .12); }
+  .stat:last-child { border-right: 0; }
+  .stat__value { color: var(--color-white); font-family: var(--font-heading); font-weight: 800; font-size: 28px; line-height: 1.05; }
+  .stat--small .stat__value { font-size: 16px; padding-top: 6px; letter-spacing: .02em; }
+  .stat__label { color: var(--color-on-dark-muted); font-size: 12.5px; margin-top: 8px; }
+  @media (max-width: 820px) { .stat { flex-basis: 50%; } }
+</style>

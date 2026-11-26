@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import CtaBand from '../components/sections/CtaBand.astro';
+import IndustryExplorer from '../components/sections/IndustryExplorer.astro';
+import Stats from '../components/ui/Stats.astro';
+import Button from '../components/ui/Button.astro';
+import { sectors } from '../data/industries';
+---
+<BaseLayout title="Industries &amp; Clients" description="Sector expertise across energy, finance, technology, healthcare, retail, public sector, agriculture, real estate and non-profits.">
+  <PageHero size="lg" flush eyebrow="Industries &amp; Clients" title="Sector expertise, trusted <em>across the globe</em>"
+    intro="The right answer in audit, tax or advisory depends on your sector. We have worked across most of them — for regulators, multinationals, development organisations and startups worldwide.">
+    <Stats items={[
+      { value: String(sectors.length), label: 'Sectors served' },
+      { value: '50+', label: 'Clients featured' },
+      { value: '3', label: 'Continents' },
+      { value: 'Audit · Tax · Advisory', label: 'Across every engagement', small: true },
+    ]} />
+  </PageHero>
+
+  <IndustryExplorer />
+
+  <CtaBand title="Tell us about your sector." text="We will point you to the partner who knows it best.">
+    <Button href="/contact/" size="lg">Get in touch</Button>
+  </CtaBand>
+</BaseLayout>

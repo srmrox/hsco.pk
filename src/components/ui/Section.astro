@@ -1,0 +1,46 @@
+---
+/**
+ * Section: a full-width band with a centred inner column.
+ *   tone:  white | surface (light grey) | textured (light grey + dots) | black
+ *   width: narrow (800) | content (1040) | wide (1140) | max (1200)
+ *   space: md (64px top/bottom) | sm (48px) | lg (72px) | none
+ */
+interface Props {
+  tone?: 'white' | 'surface' | 'textured' | 'black';
+  width?: 'narrow' | 'content' | 'wide' | 'max';
+  space?: 'none' | 'sm' | 'md' | 'lg';
+  align?: 'left' | 'center';
+  id?: string;
+  class?: string;
+}
+const { tone = 'white', width = 'content', space = 'md', align = 'left', id, class: className } = Astro.props;
+---
+<section id={id} class:list={['section', `section--${tone}`, `section--space-${space}`, className]}>
+  <div class:list={['section__inner', `section__inner--${width}`, `section__inner--${align}`]}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section { padding-left: var(--gutter); padding-right: var(--gutter); }
+  .section--space-md { padding-top: var(--section-y); padding-bottom: var(--section-y); }
+  .section--space-sm { padding-top: var(--space-12); padding-bottom: var(--space-12); }
+  .section--space-lg { padding-top: var(--space-18); padding-bottom: var(--space-18); }
+
+  .section--white { background: var(--color-white); }
+  .section--surface,
+  .section--textured {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .section--textured { background-image: var(--texture-dots-dark); }
+  .section--black { background: var(--color-black); }
+
+  .section__inner { margin: 0 auto; }
+  .section__inner--narrow { max-width: var(--width-narrow); }
+  .section__inner--content { max-width: var(--width-content); }
+  .section__inner--wide { max-width: var(--width-wide); }
+  .section__inner--max { max-width: var(--width-max); }
+  .section__inner--center { text-align: center; }
+</style>

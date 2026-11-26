@@ -1,0 +1,27 @@
+---
+/** Person card: initials avatar, name, role and bio. */
+interface Props { initials: string; name: string; role: string }
+const { initials, name, role } = Astro.props;
+---
+<article class="profile">
+  <div class="profile__avatar" aria-hidden="true">{initials}</div>
+  <div>
+    <h3 class="profile__name">{name}</h3>
+    <div class="profile__role">{role}</div>
+    <p class="profile__bio"><slot /></p>
+  </div>
+</article>
+
+<style>
+  .profile { display: flex; gap: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); background: var(--color-white); }
+  .profile__avatar {
+    flex: 0 0 72px; width: 72px; height: 72px; border-radius: 50%;
+    background: var(--color-navy); color: var(--color-white);
+    font-family: var(--font-heading); font-weight: 800; font-size: var(--text-h3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .profile__name { font-size: 20px; font-weight: 700; }
+  .profile__role { color: var(--color-primary); font-size: var(--text-card); font-weight: 600; margin: 2px 0 10px; }
+  .profile__bio { color: var(--color-text); font-size: var(--text-base-sm); line-height: var(--leading-normal); }
+  @media (max-width: 760px) { .profile { flex-direction: column; } }
+</style>
